@@ -20,6 +20,12 @@ connection.once('open', () => {
     console.log("MongoDB database connection established successfully");
 })
 
+const constellationRouter = require('./routes/constellations');
+const starRouter = require('./routes/stars');
+
+app.use('/constellations', constellationRouter);
+app.use('/stars', starRouter);
+
 app.listen(port, () => {
     console.log(`Server is running on port: ${port}`);
 });

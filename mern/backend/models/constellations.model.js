@@ -2,10 +2,11 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
-const constellationSchema = new mongoose.Schema({
-  name: { type: String, required: true },
-  stars: [{ type: Schema.Types.ObjectId, ref: 'Star' }],
-  // Other constellation properties...
+const constellationSchema = new Schema({
+  N: { type: String, required: true },
+  C: { type: String, required: true },
+},{
+    timestamps: true,
 });
 
 module.exports = mongoose.model('Constellation', constellationSchema);

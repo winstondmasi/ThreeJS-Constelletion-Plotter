@@ -1,20 +1,36 @@
+// constellation.js
 const router = require('express').Router();
 let Constellation = require('../models/constellations.model');
 
-router.route('/').get((req, res) => {
-    Constellation.find()
-        .then(const_name => res.json(const_name))
-        .catch(err => res.status(400).json('Error: ' + err))
+// Get all constellations
+router.get('/', async (req, res) => {
+    try {
+        const constellations = await Constellation.find();
+        res.json(constellations);
+    } catch (err) {
+        res.status(500).json({ message: err.message });
+    }
 });
 
-router.route('/add').post((req, res) => {
-    const constellation_name = req.body.constellation_name;
-
-    const new_constellation = new Constellation({constellation_name});
-
-    new_constellation.save()
-    .then(() => res.json('Constellation added!'))
-    .catch(err => res.status(400).json('Error: ' + err));
+// Get one constellation
+router.get('/:HR', getConstellation, (req, res) => {
+    res.json(res.constellation);
 });
+
+// Middleware function for get by HR
+async function getConstellation(req, res, next) {
+    let constellation;
+    try {
+        constellation = await Constellation.findById(req.params.HR);
+        if (constellation == null) {
+            return res.status(404).json({ message: 'Cannot find constellation' });
+        }
+    } catch(err) {
+        return res.status(500).json({ message: err.message });
+    }
+  
+    res.constellation = constellation;
+    next();
+}
 
 module.exports = router;

@@ -1,28 +1,36 @@
+// star.js
 const router = require('express').Router();
 let Star = require('../models/star.model');
 
-router.route('/').get((req, res) => {
-    Star.find()
-        .then(stars => res.json(stars))
-        .catch(err => res.status(400).json('Error: ' + err));
+// Get all stars
+router.get('/', async (req, res) => {
+    try {
+        const stars = await Star.find();
+        res.json(stars);
+    } catch (err) {
+        res.status(500).json({ message: err.message });
+    }
 });
 
-router.route('/add').post((req, res) => {
-    const name = req.body.name;
-    const rightAscension = req.body.rightAscension;
-    const declination = req.body.declination;
-    const magnitude = req.body.magnitude;
-
-    const newStar = new Star({
-        name,
-        rightAscension,
-        declination,
-        magnitude,
-    });
-
-    newStar.save()
-        .then(() => res.json('Star Added!'))
-        .catch(err => res.status(400).json('Error: ' + err));
+// Get one star
+router.get('/:HR', getStar, (req, res) => {
+    res.json(res.star);
 });
+
+// Middleware function for get by HR
+async function getStar(req, res, next) {
+    let star;
+    try {
+        star = await Star.findById(req.params.HR);
+        if (star == null) {
+            return res.status(404).json({ message: 'Cannot find star' });
+        }
+    } catch(err) {
+        return res.status(500).json({ message: err.message });
+    }
+  
+    res.star = star;
+    next();
+}
 
 module.exports = router;

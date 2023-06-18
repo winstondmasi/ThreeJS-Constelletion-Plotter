@@ -12,7 +12,6 @@ const starSchema = new Schema({
     Dec: { type: String, required: true },
     K: { type: String, required: true },
     V: { type: Number, required: true },
-    constellation: { type: Schema.Types.ObjectId, ref: 'Constellation' }  // Reference to the constellation
 }, {
     timestamps: true,
 });
@@ -20,3 +19,4 @@ const starSchema = new Schema({
 const Star = mongoose.model('Star', starSchema);
 
 module.exports = Star;
+

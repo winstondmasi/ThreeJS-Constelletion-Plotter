@@ -2,6 +2,8 @@
 const mongoose = require('mongoose');
 const fs = require('fs');
 
+require('dotenv').config();
+
 // Define your Mongoose schema
 const StarSchema = new mongoose.Schema({
   Dec: String,
@@ -19,7 +21,7 @@ const StarSchema = new mongoose.Schema({
 const Star = mongoose.model('Star', StarSchema);
 
 // Read in the data from your JSON file
-fs.readFile('data.json', 'utf8', (err, data) => {
+fs.readFile('../importFiles/data.json', 'utf8', (err, data) => {
   if (err) {
     console.error(err);
     return;

@@ -3,7 +3,7 @@ const express = require('express');
 const router = express.Router();
 
 // Import your Mongoose model
-const Star = require('../models/star');  // Replace with the path to your Star model
+const Star = require('../models/star.model');  // Replace with the path to your Star model
 
 // GET route to retrieve all stars
 router.get('/', async (req, res) => {

@@ -1,8 +1,13 @@
 // This script should be run once to populate the database.
+require('dotenv').config({ path: '../.env' });
+console.log("ATLAS_URI:", process.env.ATLAS_URI);
+console.log(process.cwd());
+
+const uri = process.env.ATLAS_URI;
+
 const mongoose = require('mongoose');
 const fs = require('fs');
 
-require('dotenv').config();
 
 // Define your Mongoose schema
 const StarSchema = new mongoose.Schema({
@@ -32,7 +37,6 @@ fs.readFile('../importFiles/data.json', 'utf8', (err, data) => {
   // Filter out the stars that do not have an 'N' field
   const starsWithName = stars.filter(star => star.N);
 
-  const uri = process.env.ATLAS_URI;
 
   // Connect to your MongoDB database
   mongoose.connect(uri , { useNewUrlParser: true, useUnifiedTopology: true })

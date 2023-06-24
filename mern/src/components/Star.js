@@ -1,0 +1,1 @@
+//Star for individual scene

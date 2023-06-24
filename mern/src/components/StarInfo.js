@@ -1,0 +1,1 @@
+//display additional information about a selected star
